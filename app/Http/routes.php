@@ -11,13 +11,10 @@
 |
 */
 
-Route::resource('/articles', 'ArticleController');
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/hello', function () {
-    return 'Hello World';
-});
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +28,19 @@ Route::get('/hello', function () {
 */
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
-
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
     Route::get('/home', 'HomeController@index');
+    Route::get('/', ['as' => 'welcome', 'uses' => function () {
+        return view('welcome');
+    }]);
+    Route::get('/auth/facebook', 'Auth\SocialController@redirectToProvider');
+    Route::get('/auth/facebook/callback', 'Auth\SocialController@handleProviderCallback');
+    Route::resource('/post', 'PostController');
+    Route::resource('/comment', 'CommentController');
+    Route::resource('/user', 'UserController');
+
+    Route::get('/admin', function(){
+       return 'admin';
+    })->middleware('isadmin');
+
+
 });

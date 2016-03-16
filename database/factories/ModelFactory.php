@@ -19,3 +19,20 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence(6, true),
+        'content' => $faker->text,
+        'user_id' => $faker->numberBetween(1, 20),
+    ];
+});
+
+$factory->define(App\Models\Comment::class, function (Faker\Generator $faker) {
+    return [
+        'comment' => $faker->text,
+        'user_id' => $faker->numberBetween(1, 20),
+        'post_id' => $faker->numberBetween(1, 15),
+    ];
+});
+
